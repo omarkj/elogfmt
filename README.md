@@ -31,3 +31,9 @@ the log message. This comes with all the warnings about using macros.
 ```
 $ rebar3 compile
 ```
+
+## Test
+
+```
+$ rebar3 eunit
+```
