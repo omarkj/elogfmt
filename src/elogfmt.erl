@@ -9,24 +9,33 @@
 -export([macro_log/2,
          macro_string/2]).
 
+-type key() :: iolist().
+-type value() :: float()|integer()|iolist().
+-type loglist() :: [{key(), value()}].
+-type logmap() :: #{key() => value()}.
+-type structure() :: loglist()|logmap().
+
 %% API
 %% ---
+-spec string(structure()) -> binary().
 string(LogStructure) ->
     iolist_to_binary(log(LogStructure)).
 
+-spec log(structure()) -> iolist().
 log(Map) when is_map(Map) ->
     log(maps:to_list(Map));
 log(List) when is_list(List) ->
     lists:reverse(log_proplist(List, [])).
 
-macro_string(ModInfo, Map) ->
-    iolist_to_binary(macro_log(ModInfo, Map)).
+-spec macro_string(loglist(), structure()) -> binary().
+macro_string(ModInfo, Info) ->
+    iolist_to_binary(macro_log(ModInfo, Info)).
 
+-spec macro_log(loglist(), structure()) -> iolist().
 macro_log(ModInfo, Map) when is_map(Map) ->
     macro_log(ModInfo, maps:to_list(Map));
 macro_log(ModInfo, List) when is_list(List) ->
     log(lists:flatten([ModInfo|List])).
-
 
 %% Internals
 %% ---------
