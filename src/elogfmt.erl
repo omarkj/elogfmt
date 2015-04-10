@@ -11,27 +11,29 @@
 
 -type key() :: iolist().
 -type value() :: float()|integer()|iolist().
+-type logline() :: binary().
+-type logmessage() :: iolist().
 -type loglist() :: [{key(), value()}].
 -type logmap() :: #{key() => value()}.
 -type structure() :: loglist()|logmap().
 
 %% API
 %% ---
--spec string(structure()) -> binary().
+-spec string(structure()) -> logline().
 string(LogStructure) ->
     iolist_to_binary(log(LogStructure)).
 
--spec log(structure()) -> iolist().
+-spec log(structure()) -> logmessage().
 log(Map) when is_map(Map) ->
     log(maps:to_list(Map));
 log(List) when is_list(List) ->
     lists:reverse(log_proplist(List, [])).
 
--spec macro_string(loglist(), structure()) -> binary().
+-spec macro_string(loglist(), structure()) -> logline().
 macro_string(ModInfo, Info) ->
     iolist_to_binary(macro_log(ModInfo, Info)).
 
--spec macro_log(loglist(), structure()) -> iolist().
+-spec macro_log(loglist(), structure()) -> logmessage().
 macro_log(ModInfo, Map) when is_map(Map) ->
     macro_log(ModInfo, maps:to_list(Map));
 macro_log(ModInfo, List) when is_list(List) ->
