@@ -1,2 +1,1 @@
--define(STRING(INFO), elogfmt:macro_string([{"mod", ?MODULE_STRING}], INFO)).
 -define(LOG(INFO), elogfmt:macro_log([{"mod", ?MODULE_STRING}], INFO)).
