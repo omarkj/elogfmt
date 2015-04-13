@@ -22,39 +22,39 @@
 
 %% API
 %% ---
--spec count(elogfmt:key(), count_value()) -> elogfmt:logmessage().
+-spec count(elogfmt_core:key(), count_value()) -> elogfmt:logline().
 count(Key, CountValue) when is_integer(CountValue) ->
     count(Key, CountValue, []).
 
--spec count(elogfmt:key(), count_value(), elogfmt:structure()) ->
-                   elogfmt:logmessage().
+-spec count(elogfmt_core:key(), count_value(), elogfmt_core:structure()) ->
+                   elogfmt:logline().
 count(Key, CountValue, OtherLogData) ->
     log(?COUNT, Key, CountValue, OtherLogData).
 
--spec measure(elogfmt:key(), measure_value()) -> elogfmt:logmessage().
+-spec measure(elogfmt_core:key(), measure_value()) -> elogfmt:logline().
 measure(Key, MeasureValue) ->
     measure(Key, MeasureValue, []).
 
--spec measure(elogfmt:key(), measure_value(), elogfmt:structure()) ->
-                     elogfmt:logmessage().
+-spec measure(elogfmt_core:key(), measure_value(), elogfmt_core:structure()) ->
+                     elogfmt:logline().
 measure(Key, MeasureValue, OtherLogData) ->
     log(?MEASURE, Key, MeasureValue, OtherLogData).
 
--spec sample(elogfmt:key(), sample_value()) -> elogfmt:logmessage().
+-spec sample(elogfmt_core:key(), sample_value()) -> elogfmt:logline().
 sample(Key, SampleValue) ->
     sample(Key, SampleValue, []).
 
--spec sample(elogfmt:key(), sample_value(), elogfmt:structure()) ->
-                    elogfmt:logmessage().
+-spec sample(elogfmt_core:key(), sample_value(), elogfmt:structure()) ->
+                    elogfmt:logline().
 sample(Key, SampleValue, OtherLogData) ->
     log(?SAMPLE, Key, SampleValue, OtherLogData).
 
--spec unique(elogfmt:key(), unique_value()) -> elogfmt:logmessage().
+-spec unique(elogfmt_core:key(), unique_value()) -> elogfmt:logline().
 unique(Key, UniqueValue) ->
     unique(Key, UniqueValue, []).
 
--spec unique(elogfmt:key(), unique_value(), elogfmt:structure()) ->
-                    elogfmt:logmessage().
+-spec unique(elogfmt_core:key(), unique_value(), elogfmt:structure()) ->
+                    elogfmt:logline().
 unique(Key, UniqueValue, OtherLogData) ->
     log(?UNIQUE, Key, UniqueValue, OtherLogData).
 
@@ -70,31 +70,23 @@ log(Prefix, Key, Value, OtherLogData) ->
 -ifdef(TEST).
 -include_lib("eunit/include/eunit.hrl").
 count_test() ->
-    ?assertEqual([[<<"count#">>, "foo"], <<"=">>, "1"], count("foo", 1)),
-    ?assertEqual([[<<"count#">>, "foo"], <<"=">>, "1", <<" ">>, "second",
-                  <<"=">>, "value"], count("foo", 1, [{"second", "value"}])),
-    ?assertEqual([[<<"count#">>, "foo"], <<"=">>, "1", <<" ">>, "second",
-                  <<"=">>, "value"], count("foo", 1, #{"second" => "value"})).
+    ?assertEqual(<<"count#foo=1">>, count("foo", 1)),
+    ?assertEqual(<<"count#foo=1 second=value">>, count("foo", 1, [{"second", "value"}])),
+    ?assertEqual(<<"count#foo=1 second=value">>, count("foo", 1, #{"second" => "value"})).
 
 measure_test() ->
-    ?assertEqual([[<<"measure#">>, "foo"], <<"=">>, "1.1"], measure("foo", 1.1)),
-    ?assertEqual([[<<"measure#">>, "foo"], <<"=">>, "1.1", <<" ">>, "second",
-                  <<"=">>, "value"], measure("foo", 1.1, [{"second", "value"}])),
-    ?assertEqual([[<<"measure#">>, "foo"], <<"=">>, "1", <<" ">>, "second",
-                  <<"=">>, "value"], measure("foo", 1, #{"second" => "value"})).
+    ?assertEqual(<<"measure#foo=1.1">>, measure("foo", 1.1)),
+    ?assertEqual(<<"measure#foo=1.1 second=value">>, measure("foo", 1.1, [{"second", "value"}])),
+    ?assertEqual(<<"measure#foo=1 second=value">>, measure("foo", 1, #{"second" => "value"})).
 
 sample_test() ->
-    ?assertEqual([[<<"sample#">>, "foo"], <<"=">>, "1"], sample("foo", 1)),
-    ?assertEqual([[<<"sample#">>, "foo"], <<"=">>, "1", <<" ">>, "second",
-                  <<"=">>, "value"], sample("foo", 1, [{"second", "value"}])),
-    ?assertEqual([[<<"sample#">>, "foo"], <<"=">>, "1", <<" ">>, "second",
-                  <<"=">>, "value"], sample("foo", 1, #{"second" => "value"})).
+    ?assertEqual(<<"sample#foo=1">>, sample("foo", 1)),
+    ?assertEqual(<<"sample#foo=1 second=value">>, sample("foo", 1, [{"second", "value"}])),
+    ?assertEqual(<<"sample#foo=1 second=value">>, sample("foo", 1, #{"second" => "value"})).
 
 unique_test() ->
-    ?assertEqual([[<<"unique#">>, "foo"], <<"=">>, "1"], unique("foo", 1)),
-    ?assertEqual([[<<"unique#">>, "foo"], <<"=">>, "1", <<" ">>, "second",
-                  <<"=">>, "value"], unique("foo", 1, [{"second", "value"}])),
-    ?assertEqual([[<<"unique#">>, "foo"], <<"=">>, "1", <<" ">>, "second",
-                  <<"=">>, "value"], unique("foo", 1, #{"second" => "value"})).
+    ?assertEqual(<<"unique#foo=1">>, unique("foo", 1)),
+    ?assertEqual(<<"unique#foo=1 second=value">>, unique("foo", 1, [{"second", "value"}])),
+    ?assertEqual(<<"unique#foo=1 second=value">>, unique("foo", 1, #{"second" => "value"})).
 
 -endif.

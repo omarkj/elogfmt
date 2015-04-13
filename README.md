@@ -1,9 +1,9 @@
 # elogfmt
 
-`logftm` library for Erlang. Read more about [`logfmt`](https://brandur.org/logfmt).
+`logfmt` and `structured log` library for Erlang. To be used when draining logs
+from a Heroku app to Librato.
 
 ## API
-
 
 ### Elogfmt
 
@@ -16,8 +16,7 @@
 -type logmap() :: #{key() => value()}.
 -type structure() :: loglist()|logmap().
 
--spec string(structure()) -> logline().
--spec log(structure()) -> logmessage().
+-spec log(structure()) -> logline().
 ```
 
 The library also contains a macro which will inject the calling module name into
@@ -25,8 +24,7 @@ the log message. This comes with all the warnings about using macros.
 
 ```
 -include_lib("elogfmt/include/elogfmt.hrl").
-?LOG(structure()) -> logmessage().
-?STRING(structure()) -> logline().
+?LOG(structure()) -> logline().
 ```
 
 ### Structured Logs
@@ -37,16 +35,16 @@ the log message. This comes with all the warnings about using macros.
 -type sample_value() :: integer()|float().
 -type unique_value() :: iolist().
 
--spec count(elogfmt:key(), count_value()) -> elogfmt:logmessage().
+-spec count(elogfmt:key(), count_value()) -> elogfmt:logline().
 -spec count(elogfmt:key(), count_value(), elogfmt:structure()) ->
                    elogfmt:logmessage().
--spec measure(elogfmt:key(), measure_value()) -> elogfmt:logmessage().
+-spec measure(elogfmt:key(), measure_value()) -> elogfmt:logline().
 -spec measure(elogfmt:key(), measure_value(), elogfmt:structure()) ->
                      elogfmt:logmessage().
--spec sample(elogfmt:key(), sample_value()) -> elogfmt:logmessage().
+-spec sample(elogfmt:key(), sample_value()) -> elogfmt:logline().
 -spec sample(elogfmt:key(), sample_value(), elogfmt:structure()) ->
                     elogfmt:logmessage().
--spec unique(elogfmt:key(), unique_value()) -> elogfmt:logmessage().
+-spec unique(elogfmt:key(), unique_value()) -> elogfmt:logline().
 -spec unique(elogfmt:key(), unique_value(), elogfmt:structure()) ->
                     elogfmt:logmessage().
 ```
