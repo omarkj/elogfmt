@@ -1,4 +1,4 @@
-# elogfmt
+# elogfmt (1.0.0)
 
 `logfmt` and `structured log` library for Erlang. To be used when draining logs
 from a Heroku app to Librato.
