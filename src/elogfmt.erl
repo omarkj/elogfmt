@@ -2,12 +2,6 @@
 
 -define(SEP, <<"=">>).
 -define(WSP, <<" ">>).
-%% API exports
--export([log/1,
-         string/1]).
-%% For macro
--export([macro_log/2,
-         macro_string/2]).
 
 -type key() :: iolist().
 -type value() :: float()|integer()|iolist().
@@ -16,6 +10,21 @@
 -type loglist() :: [{key(), value()}].
 -type logmap() :: #{key() => value()}.
 -type structure() :: loglist()|logmap().
+
+%% API exports
+-export([log/1,
+         string/1]).
+
+%% For macro
+-export([macro_log/2,
+         macro_string/2]).
+
+%% Types
+-export_type([key/0,
+              value/0,
+              logline/0,
+              logmessage/0,
+              structure/0]).
 
 %% API
 %% ---

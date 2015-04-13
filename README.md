@@ -4,6 +4,9 @@
 
 ## API
 
+
+### Elogfmt
+
 ```
 -type key() :: iolist().
 -type value() :: float()|integer()|iolist().
@@ -25,6 +28,29 @@ the log message. This comes with all the warnings about using macros.
 ?LOG(structure()) -> logmessage().
 ?STRING(structure()) -> logline().
 ```
+
+### Structured Logs
+
+```
+-type count_value() :: pos_integer().
+-type measure_value() :: integer()|float().
+-type sample_value() :: integer()|float().
+-type unique_value() :: iolist().
+
+-spec count(elogfmt:key(), count_value()) -> elogfmt:logmessage().
+-spec count(elogfmt:key(), count_value(), elogfmt:structure()) ->
+                   elogfmt:logmessage().
+-spec measure(elogfmt:key(), measure_value()) -> elogfmt:logmessage().
+-spec measure(elogfmt:key(), measure_value(), elogfmt:structure()) ->
+                     elogfmt:logmessage().
+-spec sample(elogfmt:key(), sample_value()) -> elogfmt:logmessage().
+-spec sample(elogfmt:key(), sample_value(), elogfmt:structure()) ->
+                    elogfmt:logmessage().
+-spec unique(elogfmt:key(), unique_value()) -> elogfmt:logmessage().
+-spec unique(elogfmt:key(), unique_value(), elogfmt:structure()) ->
+                    elogfmt:logmessage().
+```
+
 
 ## Build
 
