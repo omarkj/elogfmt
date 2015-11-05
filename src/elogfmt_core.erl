@@ -38,6 +38,8 @@ log_proplist([{K, F}|Rest], Res) when is_float(F) ->
     log_proplist(Rest, [?WSP, Decimal, ?SEP, K|Res]);
 log_proplist([{K, B}|Rest], Res) when is_binary(B) ->
     log_proplist(Rest, [?WSP, B, ?SEP, K|Res]);
+log_proplist([{K, A}|Rest], Res) when is_atom(A) ->
+    log_proplist(Rest, [?WSP, erlang:atom_to_list(A), ?SEP, K|Res]);
 log_proplist([{K, L}|Rest], Res) when is_list(L) ->
     log_proplist(Rest, [?WSP, L, ?SEP, K|Res]).
 
